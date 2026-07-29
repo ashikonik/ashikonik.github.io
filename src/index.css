@@ -152,27 +152,6 @@ a:hover {
   color: var(--teal);
 }
 
-.nav-logo-img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center 15%;
-  vertical-align: middle;
-  margin-right: 6px;
-}
-
-.nav-logo-text {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--text-lg);
-  color: var(--navy);
-}
-
-.nav-logo-text:hover {
-  color: var(--teal);
-}
-
 .nav-links {
   display: flex;
   align-items: center;

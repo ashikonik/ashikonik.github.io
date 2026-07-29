@@ -16,16 +16,7 @@ export default function Nav() {
       <nav className="nav">
         <div className="nav-inner">
           <Link to="/" className="nav-logo">
-            <img
-              src="/profile-photo.jpg"
-              alt="Ashik"
-              className="nav-logo-img"
-              onError={(e) => {
-                e.target.style.display = "none";
-                e.target.nextSibling.style.display = "inline";
-              }}
-            />
-            <span className="nav-logo-text">Ashik</span>
+            Ashik-Uz-Zaman
           </Link>
 
           <ul className="nav-links">
