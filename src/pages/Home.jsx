@@ -11,6 +11,8 @@ import {
   interests,
 } from "../data";
 import Loading from "../components/Loading";
+import Marquee from "../components/Marquee";
+import NowSection from "../components/NowSection";
 
 export default function Home() {
   const [photoError, setPhotoError] = useState(false);
@@ -25,12 +27,6 @@ export default function Home() {
 
   const featured = projects.slice(0, 4);
   const researchProjects = projects.filter((p) => p.category === "research");
-  const publishedCount = publications.filter(
-    (p) => p.status === "Published"
-  ).length;
-  const acceptedCount = publications.filter(
-    (p) => p.status === "Accepted"
-  ).length;
 
   return (
     <div className="page">
@@ -39,9 +35,24 @@ export default function Home() {
         <section className="hero">
           <div className="hero-layout">
             <div className="hero-text">
-              <p className="hero-greeting">Hello, I'm</p>
+              <p className="hero-greeting">Hello there.</p>
               <h1 className="hero-name">{profile.name}</h1>
+              <p className="hero-signoff">
+                I'm a CS researcher and developer based in Dhaka — currently{" "}
+                <em>shipping one thing and reading three.</em>
+              </p>
               <p className="hero-tagline">{profile.bio}</p>
+
+              <div
+                className="hero-now"
+                aria-label="What I'm up to right now"
+              >
+                <span>
+                  <strong>Now</strong> · Researching context-aware IoT transport
+                  · Open to research & software collaborations
+                </span>
+              </div>
+
               <div className="hero-meta">
                 <span>
                   <strong>CGPA</strong> {profile.cgpa}
@@ -49,10 +60,7 @@ export default function Home() {
                 <span className="hero-meta-dot" />
                 <span>{profile.expectedGraduation} · Expected</span>
                 <span className="hero-meta-dot" />
-                <span>
-                  {publications.length} IEEE papers ({publishedCount}{" "}
-                  published, {acceptedCount} accepted)
-                </span>
+                <span>{publications.length} IEEE conference papers</span>
               </div>
               <div className="hero-links">
                 <a
@@ -93,19 +101,26 @@ export default function Home() {
               </div>
             </div>
             {!photoError ? (
-              <img
-                src="/profile-photo.jpg"
-                alt={profile.name}
-                className="hero-photo"
-                onError={() => setPhotoError(true)}
-              />
+              <div className="hero-photo-wrap">
+                <img
+                  src="/profile-photo.jpg"
+                  alt={profile.name}
+                  className="hero-photo"
+                  onError={() => setPhotoError(true)}
+                />
+              </div>
             ) : (
               <div className="hero-monogram">
                 <span>{profile.initials}</span>
               </div>
             )}
           </div>
+
+          <Marquee />
         </section>
+
+        {/* Now */}
+        <NowSection />
 
         {/* Experience */}
         <section className="section">
@@ -139,7 +154,9 @@ export default function Home() {
               <div className="edu-card" key={i}>
                 <p className="edu-institution">{edu.institution}</p>
                 <p className="edu-credential">{edu.credential}</p>
-                <p className="edu-score">{edu.score}</p>
+                <p className="edu-score">
+                  {edu.score}
+                </p>
                 <p className="edu-period">{edu.period}</p>
               </div>
             ))}
@@ -203,10 +220,14 @@ export default function Home() {
               <Link
                 to={`/projects/${project.slug}`}
                 key={project.slug}
-                className="project-card"
+                className={`project-card ${project.category}`}
                 style={{ textDecoration: "none" }}
               >
-                <span className="project-card-badge">{project.category}</span>
+                <span className="project-card-arrow" aria-hidden="true">↗</span>
+                <div className="project-card-meta">
+                  <span className="project-card-badge">{project.category}</span>
+                  <span className="project-card-year">{project.year}</span>
+                </div>
                 <h3 className="project-card-title">{project.title}</h3>
                 <p className="project-card-summary">{project.summary}</p>
                 <div className="project-card-tech">
@@ -236,24 +257,15 @@ export default function Home() {
         <section className="section">
           <p className="section-label">Publications</p>
           <h2 className="section-title">
-            {publications.length} Peer-Reviewed Papers
+            {publications.length} IEEE Conference Papers
           </h2>
           <p className="section-subtitle">
-            {publishedCount} Published · {acceptedCount} Accepted · All IEEE
-            venues
+            All accepted and published across 3 IEEE venues (DCOSS-IoT, ICCIT,
+            QPAIN)
           </p>
           <div className="pub-list">
             {publications.slice(0, 3).map((pub, i) => (
-              <div className="pub-item" key={i}>
-                <p className="pub-title">{pub.title}</p>
-                <p className="pub-venue">
-                  {pub.conference}
-                  {pub.date ? ` · ${pub.date}` : ""}
-                </p>
-                <span className={`pub-status ${pub.status.toLowerCase()}`}>
-                  {pub.status}
-                </span>
-              </div>
+              <PubRow pub={pub} key={i} compact />
             ))}
           </div>
           {publications.length > 3 && (
@@ -264,5 +276,54 @@ export default function Home() {
         </section>
       </div>
     </div>
+  );
+}
+
+function PubRow({ pub, compact }) {
+  const venueCode =
+    pub.conference?.includes("DCOSS") ? "DCOSS-IoT" :
+    pub.conference?.includes("ICCIT") ? "ICCIT" :
+    pub.conference?.includes("QPAIN") ? "QPAIN" : "IEEE";
+  return (
+    <article className="pub-item">
+      <div className="pub-rail">
+        <div className="pub-year">{pub.date}</div>
+        <span className="pub-venue-chip">{venueCode}</span>
+      </div>
+      <div>
+        <p className="pub-title">
+          {pub.link ? (
+            <a
+              href={pub.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "inherit" }}
+            >
+              {pub.title}
+            </a>
+          ) : (
+            pub.title
+          )}
+        </p>
+        <p className="pub-venue">
+          {compact ? pub.conference.replace(/^\d+\w+\s+/, "") : pub.conference}
+        </p>
+      </div>
+      <div className="pub-actions">
+        {pub.link && (
+          <a
+            href={pub.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pub-action-link"
+          >
+            ↗ Read
+          </a>
+        )}
+        {!compact && pub.doi && (
+          <span className="pub-doi">DOI: {pub.doi}</span>
+        )}
+      </div>
+    </article>
   );
 }

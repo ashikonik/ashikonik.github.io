@@ -97,13 +97,17 @@ export default function Contact() {
         <p
           style={{
             color: "var(--text-secondary)",
-            maxWidth: 540,
+            maxWidth: 560,
             lineHeight: 1.7,
             marginBottom: "var(--space-2xl)",
+            fontFamily: '"Newsreader", serif',
+            fontStyle: "italic",
+            fontSize: "var(--text-lg)",
           }}
         >
-          I'm open to research collaborations, software projects, and academic
-          discussions. Send me a message below or reach out directly.
+          The fastest way to reach me is the form below — but if you're working
+          on something specific, a direct message on LinkedIn or email usually
+          goes faster.
         </p>
 
         <section className="contact-form-section">

@@ -10,62 +10,71 @@ export default function Publications() {
   }, []);
   if (!hydrated) return <Loading />;
 
-  const publishedCount = publications.filter(
-    (p) => p.status === "Published"
-  ).length;
-  const acceptedCount = publications.filter(
-    (p) => p.status === "Accepted"
-  ).length;
+  const venueCode = (conf) =>
+    conf?.includes("DCOSS") ? "DCOSS-IoT"
+    : conf?.includes("ICCIT") ? "ICCIT"
+    : conf?.includes("QPAIN") ? "QPAIN"
+    : "IEEE";
 
   return (
     <div className="page">
       <div className="container">
         <p className="section-label">Publications</p>
         <h1 className="section-title">
-          {publications.length} Peer-Reviewed Papers
+          {publications.length} IEEE Conference Papers
         </h1>
         <p className="section-subtitle">
-          {publishedCount} Published · {acceptedCount} Accepted · 3 IEEE venues
-          (DCOSS-IoT, ICCIT, QPAIN)
+          All accepted and published across 3 IEEE venues (DCOSS-IoT, ICCIT,
+          QPAIN)
         </p>
 
         <div className="pub-list">
           {publications.map((pub, i) => (
-            <div className="pub-item" key={i}>
-              <p className="pub-title">
-                {pub.link ? (
+            <article className="pub-item" key={i}>
+              <div className="pub-rail">
+                <div className="pub-year">{pub.date}</div>
+                <span className="pub-venue-chip">{venueCode(pub.conference)}</span>
+              </div>
+              <div>
+                <p className="pub-title">
+                  {pub.link ? (
+                    <a
+                      href={pub.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "inherit" }}
+                    >
+                      {pub.title}
+                    </a>
+                  ) : (
+                    pub.title
+                  )}
+                </p>
+                <p className="pub-venue">{pub.conference}</p>
+              </div>
+              <div className="pub-actions">
+                {pub.link && (
                   <a
                     href={pub.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ color: "inherit" }}
+                    className="pub-action-link"
                   >
-                    {pub.title}
+                    ↗ Read on IEEE
                   </a>
-                ) : (
-                  pub.title
                 )}
-              </p>
-              <p className="pub-venue">
-                {pub.venue} · {pub.conference}
-                {pub.date ? ` · ${pub.date}` : ""}
-              </p>
-              <span className={`pub-status ${pub.status.toLowerCase()}`}>
-                {pub.status}
-              </span>
-              {pub.doi && (
-                <p className="pub-doi">
-                  DOI:{" "}
+                {pub.doi && (
                   <a
                     href={`https://doi.org/${pub.doi}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="pub-doi"
                   >
-                    {pub.doi}
+                    DOI: {pub.doi}
                   </a>
-                </p>
-              )}
-            </div>
+                )}
+              </div>
+            </article>
           ))}
         </div>
       </div>

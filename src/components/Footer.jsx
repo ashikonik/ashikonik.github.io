@@ -3,9 +3,13 @@ export default function Footer() {
     <footer className="footer">
       <div className="container">
         <div className="footer-inner">
-          <span className="footer-copy">
-            © {new Date().getFullYear()} Md. Ashik-Uz-Zaman
-          </span>
+          <div>
+            <span className="footer-copy">
+              © {new Date().getFullYear()} Md. Ashik-Uz-Zaman · Built in
+              Dhaka, served from a static site
+            </span>
+            <span className="footer-mark">— cheers, Ashik</span>
+          </div>
           <div className="footer-links">
             <a href="https://github.com/ashikonik" target="_blank" rel="noopener noreferrer">
               GitHub

@@ -61,10 +61,14 @@ export default function Projects() {
             <Link
               to={`/projects/${project.slug}`}
               key={project.slug}
-              className="project-card"
+              className={`project-card ${project.category}`}
               style={{ textDecoration: "none" }}
             >
-              <span className="project-card-badge">{project.category}</span>
+              <span className="project-card-arrow" aria-hidden="true">↗</span>
+              <div className="project-card-meta">
+                <span className="project-card-badge">{project.category}</span>
+                <span className="project-card-year">{project.year}</span>
+              </div>
               <h3 className="project-card-title">{project.title}</h3>
               <p className="project-card-summary">{project.summary}</p>
               <div className="project-card-tech">
@@ -79,7 +83,6 @@ export default function Projects() {
                   </span>
                 )}
               </div>
-              <p className="project-card-year">{project.year}</p>
             </Link>
           ))}
         </div>

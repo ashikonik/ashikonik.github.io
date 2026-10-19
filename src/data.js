@@ -246,7 +246,6 @@ const publications = [
       "22nd International Conference on Distributed Computing in Smart Systems and the Internet of Things (DCOSS-IoT) 2026",
     doi: "10.1109/DCOSS-IoT69657.2026.00109",
     link: "https://ieeexplore.ieee.org/document/11659426",
-    status: "Accepted",
     date: "2026",
   },
   {
@@ -257,7 +256,6 @@ const publications = [
       "28th International Conference on Computer and Information Technology (ICCIT) 2025",
     doi: "10.1109/ICCIT68739.2025.11491083",
     link: "https://ieeexplore.ieee.org/abstract/document/11491083",
-    status: "Published",
     date: "2025",
   },
   {
@@ -268,7 +266,6 @@ const publications = [
       "28th International Conference on Computer and Information Technology (ICCIT) 2025",
     doi: "10.1109/ICCIT68739.2025.11491296",
     link: "https://ieeexplore.ieee.org/abstract/document/11491296",
-    status: "Published",
     date: "2025",
   },
   {
@@ -279,7 +276,6 @@ const publications = [
       "IEEE 2nd International Conference on Quantum Photonics, Artificial Intelligence & Networking (QPAIN) 2026",
     doi: "10.1109/QPAIN69676.2026.11545594",
     link: "https://ieeexplore.ieee.org/document/11545594/",
-    status: "Published",
     date: "2026",
   },
 ];
