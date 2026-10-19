@@ -26,3 +26,16 @@ Tracking every diff on the portfolio so we can revert any. Format:
 - .skill-tag: teal-on-hover
 - .footer: dashed top border, paper card
 - .not-found h1: 6rem with hand-drawn underline via inline SVG
+
+### Change 002 — Three targeted edits
+- Marquee label "I think in *these* ↓" → "Stacks, tools, and a few obsessions ↓" (no italic, no second-person)
+  - File: src/components/Marquee.jsx
+  - Fallback: revert to "I think in <em>these</em> ↓"
+- NowSection title "A short note from the workbench" → "What I'm doing this week"
+  - File: src/components/NowSection.jsx
+  - Fallback: revert the title string
+- Education redesign: cards → 3-column row (period | institution+credential | big score)
+  - Files: src/data.js (split score into score/scoreScale/scoreLabel/detail/periodRange/yearStart),
+          src/index.css (new .edu-list, .edu-row, .edu-period-block, .edu-body, .edu-score classes — old .edu-grid/.edu-card removed),
+  src/pages/Home.jsx (Education section rewritten)
+  - Fallback: revert all three files (git restore HEAD~1)

@@ -149,15 +149,26 @@ export default function Home() {
         <section className="section">
           <p className="section-label">Education</p>
           <div className="section-divider" />
-          <div className="edu-grid">
+          <div className="edu-list">
             {education.map((edu, i) => (
-              <div className="edu-card" key={i}>
-                <p className="edu-institution">{edu.institution}</p>
-                <p className="edu-credential">{edu.credential}</p>
-                <p className="edu-score">
-                  {edu.score}
-                </p>
-                <p className="edu-period">{edu.period}</p>
+              <div className="edu-row" key={i}>
+                <div className="edu-period-block">
+                  <span className="edu-period-year">{edu.yearStart}</span>
+                  <span className="edu-period-range">{edu.periodRange}</span>
+                </div>
+                <div className="edu-body">
+                  <p className="edu-institution">{edu.institution}</p>
+                  <p className="edu-credential">{edu.credential}</p>
+                </div>
+                <div className="edu-score">
+                  <span className="edu-score-number">
+                    {edu.score}
+                    <small>{edu.scoreScale}</small>
+                  </span>
+                  <span className="edu-score-detail">
+                    {edu.scoreLabel} · {edu.detail}
+                  </span>
+                </div>
               </div>
             ))}
           </div>

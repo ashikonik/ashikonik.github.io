@@ -5,7 +5,7 @@ export default function NowSection() {
   return (
     <section className="section now">
       <p className="section-label">Right now</p>
-      <h2 className="section-title">A short note from the workbench</h2>
+      <h2 className="section-title">What I'm doing this week</h2>
       <div className="now-grid">
         <div className="now-card">
           <p className="now-card-label">Researching</p>

@@ -1293,66 +1293,129 @@ a:hover {
   color: var(--teal);
 }
 
-/* ===== EDUCATION CARDS ===== */
-.edu-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-lg);
+/* ===== EDUCATION TIMELINE ===== */
+.edu-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
 }
 
-.edu-card {
+.edu-row {
+  display: grid;
+  grid-template-columns: 130px 1fr 200px;
+  align-items: stretch;
+  gap: var(--space-xl);
   background: var(--bg-card);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: var(--space-xl);
-  position: relative;
-  overflow: hidden;
+  padding: var(--space-lg) var(--space-xl);
+  transition: border-color var(--duration), transform var(--duration),
+    box-shadow var(--duration);
 }
-.edu-card::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--copper);
+.edu-row:hover {
+  border-color: var(--teal);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -10px rgba(27, 42, 74, 0.18);
 }
 
+.edu-period-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px dashed var(--border);
+  padding-right: var(--space-md);
+}
+.edu-period-year {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-xl);
+  color: var(--copper);
+  line-height: 1.1;
+}
+.edu-period-range {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+
+.edu-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .edu-institution {
   font-family: var(--font-display);
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
   font-weight: 500;
   color: var(--navy);
+  line-height: 1.2;
   margin-bottom: 4px;
 }
-
 .edu-credential {
   font-size: var(--text-sm);
   color: var(--text-secondary);
 }
 
 .edu-score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  text-align: right;
+  border-left: 1px dashed var(--border);
+  padding-left: var(--space-md);
+}
+.edu-score-number {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: var(--text-2xl);
-  color: var(--copper);
-  margin-top: var(--space-md);
+  font-size: 1.9rem;
   font-weight: 500;
+  color: var(--teal);
+  line-height: 1;
 }
-.edu-score small {
+.edu-score-number small {
   font-family: var(--font-mono);
-  font-size: 0.6em;
+  font-size: 0.45em;
   color: var(--text-muted);
   font-style: normal;
   margin-left: 4px;
+  letter-spacing: 0.04em;
+}
+.edu-score-detail {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+  letter-spacing: 0.04em;
+  max-width: 180px;
+  text-align: right;
+  line-height: 1.4;
 }
 
-.edu-period {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--slate);
-  margin-top: var(--space-xs);
-  letter-spacing: 0.04em;
+@media (max-width: 720px) {
+  .edu-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  .edu-period-block,
+  .edu-score {
+    border: none;
+    border-top: 1px dashed var(--border);
+    padding: var(--space-sm) 0 0 0;
+    text-align: left;
+    align-items: flex-start;
+  }
+  .edu-period-block {
+    padding-bottom: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+  .edu-score-detail {
+    text-align: left;
+  }
 }
 
 /* ===== NOW ASIDE ===== */

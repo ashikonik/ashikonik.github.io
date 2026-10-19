@@ -14,7 +14,7 @@ export default function Marquee() {
   return (
     <div className="marquee" aria-hidden="true">
       <p className="marquee-label">
-        I think in <em>these</em> ↓
+        Stacks, tools, and a few obsessions ↓
       </p>
       <div className="marquee-track">
         {loop.map((it, i) => (
