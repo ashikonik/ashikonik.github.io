@@ -90,9 +90,9 @@ const projects = [
     approach:
       "PRIoTP sits at the application layer and uses context (data type, freshness, edge-side inference) to classify traffic into reliability tiers, so only the messages that matter get retransmission guarantees.",
     outcome:
-      "Published at the IEEE 22nd International Conference on Distributed Computing in Smart Systems and the Internet of Things (DCOSS-IoT) 2026, Reykjavik, Iceland.",
+      "Accepted as an IEEE paper at the 22nd International Conference on Distributed Computing in Smart Systems and the Internet of Things (DCOSS-IoT) 2026, Reykjavik, Iceland.",
     highlights: [
-      "Published at IEEE DCOSS-IoT 2026",
+      "Accepted at IEEE DCOSS-IoT 2026",
       "Context-aware reliability tiers instead of all-or-nothing delivery",
       "Edge intelligence drives per-message transport decisions",
     ],
@@ -246,7 +246,7 @@ const publications = [
       "22nd International Conference on Distributed Computing in Smart Systems and the Internet of Things (DCOSS-IoT) 2026",
     doi: "10.1109/DCOSS-IoT69657.2026.00109",
     link: "https://ieeexplore.ieee.org/document/11659426",
-    status: "Published",
+    status: "Accepted",
     date: "2026",
   },
   {
