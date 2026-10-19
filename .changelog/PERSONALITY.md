@@ -67,3 +67,17 @@ Tracking every diff on the portfolio so we can revert any. Format:
   (solid border-top, simple padding, no .footer-mark, no dashed border,
   no paper-card background, no mono uppercase links).
 - Fallback: git revert HEAD or git restore from commit 7b31eca
+
+### Change 005 — Tighten top spacing on Home
+- src/index.css:
+  - .hero padding: 96px/0/64px → 0/0/48px. The page wrapper already
+    adds 96px of top padding (via .page padding-top), so the hero's own
+    96px was double-counted. Drops the perceived "huge gap at the top"
+    by 96px.
+  - .page padding-top: calc(64 + 96) → calc(64 + 48). Tightens the
+    natural breathing room between the nav and the first hero line.
+- Side effect: the hero now sits at the same top position as the
+  pre-personality original (verified by checking out 7b31eca into a
+  separate worktree and screenshotting the two side-by-side).
+- Fallback: revert the .hero padding to var(--space-4xl) 0 var(--space-3xl)
+  and .page padding-top to var(--space-3xl).

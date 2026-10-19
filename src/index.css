@@ -148,7 +148,7 @@ a:hover {
 }
 
 .page {
-  padding-top: calc(var(--nav-height) + var(--space-3xl));
+  padding-top: calc(var(--nav-height) + var(--space-2xl));
   padding-bottom: var(--space-4xl);
   min-height: 100vh;
 }
@@ -347,7 +347,7 @@ a:hover {
 
 /* ===== HERO ===== */
 .hero {
-  padding: var(--space-4xl) 0 var(--space-3xl);
+  padding: 0 0 var(--space-2xl);
 }
 
 .hero-layout {
