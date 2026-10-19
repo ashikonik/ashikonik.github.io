@@ -674,89 +674,7 @@ a:hover {
   margin-bottom: var(--space-xl);
 }
 
-/* ===== STACKS MARQUEE ===== */
-.marquee {
-  margin-top: var(--space-3xl);
-  padding: var(--space-md) 0;
-  border-top: 1px dashed var(--border);
-  border-bottom: 1px dashed var(--border);
-  overflow: hidden;
-  position: relative;
-}
-.marquee::before,
-.marquee::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 80px;
-  z-index: 2;
-  pointer-events: none;
-}
-.marquee::before {
-  left: 0;
-  background: linear-gradient(to right, var(--bg), transparent);
-}
-.marquee::after {
-  right: 0;
-  background: linear-gradient(to left, var(--bg), transparent);
-}
-.marquee-label {
-  font-family: "Newsreader", serif;
-  font-style: italic;
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  text-align: center;
-  margin-bottom: var(--space-sm);
-  position: relative;
-  z-index: 1;
-}
-.marquee-track {
-  display: flex;
-  gap: var(--space-xl);
-  width: max-content;
-  animation: marquee 38s linear infinite;
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-}
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
-}
-.marquee-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-  padding: 4px 14px;
-  border-radius: 99px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-light);
-}
-.marquee-item::before {
-  content: "◆";
-  color: var(--teal);
-  font-size: 0.65em;
-}
-.marquee-item.copper::before {
-  color: var(--copper);
-}
-.marquee-item.copper {
-  border-color: var(--copper-faint);
-}
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-  }
-}
+/* ===== STACKS MARQUEE (removed — was a personality flourish, not needed) ===== */
 
 /* ===== PROJECT CARDS ===== */
 .project-grid {
@@ -1293,165 +1211,48 @@ a:hover {
   color: var(--teal);
 }
 
-/* ===== EDUCATION TIMELINE ===== */
-.edu-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  margin-top: var(--space-md);
+/* ===== EDUCATION CARDS ===== */
+.edu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-lg);
 }
 
-.edu-row {
-  display: grid;
-  grid-template-columns: 130px 1fr 200px;
-  align-items: stretch;
-  gap: var(--space-xl);
+.edu-card {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: var(--space-lg) var(--space-xl);
-  transition: border-color var(--duration), transform var(--duration),
-    box-shadow var(--duration);
-}
-.edu-row:hover {
-  border-color: var(--teal);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px -10px rgba(27, 42, 74, 0.18);
+  padding: var(--space-xl);
 }
 
-.edu-period-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-right: 1px dashed var(--border);
-  padding-right: var(--space-md);
-}
-.edu-period-year {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: var(--text-xl);
-  color: var(--copper);
-  line-height: 1.1;
-}
-.edu-period-range {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--text-muted);
-  margin-top: 4px;
-  letter-spacing: 0.04em;
-}
-
-.edu-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
 .edu-institution {
   font-family: var(--font-display);
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   font-weight: 500;
   color: var(--navy);
-  line-height: 1.2;
   margin-bottom: 4px;
 }
+
 .edu-credential {
   font-size: var(--text-sm);
   color: var(--text-secondary);
 }
 
 .edu-score {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
-  text-align: right;
-  border-left: 1px dashed var(--border);
-  padding-left: var(--space-md);
-}
-.edu-score-number {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 1.9rem;
-  font-weight: 500;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
   color: var(--teal);
-  line-height: 1;
-}
-.edu-score-number small {
-  font-family: var(--font-mono);
-  font-size: 0.45em;
-  color: var(--text-muted);
-  font-style: normal;
-  margin-left: 4px;
-  letter-spacing: 0.04em;
-}
-.edu-score-detail {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--text-muted);
-  margin-top: 6px;
-  letter-spacing: 0.04em;
-  max-width: 180px;
-  text-align: right;
-  line-height: 1.4;
+  margin-top: var(--space-sm);
 }
 
-@media (max-width: 720px) {
-  .edu-row {
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
-  }
-  .edu-period-block,
-  .edu-score {
-    border: none;
-    border-top: 1px dashed var(--border);
-    padding: var(--space-sm) 0 0 0;
-    text-align: left;
-    align-items: flex-start;
-  }
-  .edu-period-block {
-    padding-bottom: 0;
-    padding-top: 0;
-    border-top: none;
-  }
-  .edu-score-detail {
-    text-align: left;
-  }
+.edu-period {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--slate-light);
+  margin-top: var(--space-xs);
 }
 
-/* ===== NOW ASIDE ===== */
-.now-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--space-lg);
-}
-.now-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  padding: var(--space-xl);
-  position: relative;
-}
-.now-card-label {
-  font-family: "Newsreader", serif;
-  font-style: italic;
-  font-size: var(--text-base);
-  color: var(--copper);
-  margin-bottom: var(--space-sm);
-}
-.now-card-body {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  color: var(--navy);
-  line-height: 1.55;
-}
-.now-card-body strong {
-  font-weight: 600;
-  color: var(--navy);
-}
-.now-card-body em {
-  color: var(--text-secondary);
-  font-style: italic;
-}
+/* ===== NOW ASIDE (removed — section deleted) ===== */
 
 /* ===== FOOTER ===== */
 .footer {

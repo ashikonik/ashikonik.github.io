@@ -39,3 +39,21 @@ Tracking every diff on the portfolio so we can revert any. Format:
           src/index.css (new .edu-list, .edu-row, .edu-period-block, .edu-body, .edu-score classes — old .edu-grid/.edu-card removed),
   src/pages/Home.jsx (Education section rewritten)
   - Fallback: revert all three files (git restore HEAD~1)
+
+### Change 003 — Revert three personality-fluish pieces
+- Marquee (stacks ticker): component and CSS entirely removed
+  - Files deleted: src/components/Marquee.jsx
+  - CSS stripped: src/index.css (.marquee, .marquee-track, .marquee-item, .marquee-label rules deleted)
+  - Imports/usage removed from src/pages/Home.jsx
+- "Right now" / NowSection: component, CSS, and JSX usage entirely removed
+  - Files deleted: src/components/NowSection.jsx
+  - CSS stripped: src/index.css (.now-grid, .now-card, .now-card-label, .now-card-body rules deleted)
+  - Imports/usage removed from src/pages/Home.jsx
+- Education: rolled back to the pre-personality layout (the one that shipped
+  on the original GitHub Pages site at commit 7b31eca)
+  - src/data.js: education array back to {institution, credential, score, period}
+  - src/index.css: edu-* rules restored to the pre-personality block (.edu-grid,
+    .edu-card, .edu-institution, .edu-credential, .edu-score, .edu-period)
+  - src/pages/Home.jsx: Education section now uses .edu-grid + .edu-card
+  - Fallback: git revert HEAD (revert this whole commit) or pick an
+    earlier commit before db6ba7d for the full personality build
