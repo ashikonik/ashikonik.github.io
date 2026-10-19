@@ -1,30 +1,36 @@
 import { useState, useEffect } from "react";
-import { apiGet } from "../api";
+import { publications } from "../data";
 import Loading from "../components/Loading";
 
 export default function Publications() {
-  const [pubs, setPubs] = useState([]);
-  const [loading, setLoading] = useState(true);
-
+  const [hydrated, setHydrated] = useState(false);
   useEffect(() => {
-    apiGet("/publications")
-      .then(setPubs)
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    const t = setTimeout(() => setHydrated(true), 0);
+    return () => clearTimeout(t);
   }, []);
+  if (!hydrated) return <Loading />;
 
-  if (loading) return <Loading />;
+  const publishedCount = publications.filter(
+    (p) => p.status === "Published"
+  ).length;
+  const acceptedCount = publications.filter(
+    (p) => p.status === "Accepted"
+  ).length;
 
   return (
     <div className="page">
       <div className="container">
         <p className="section-label">Publications</p>
         <h1 className="section-title">
-          {pubs.length} Papers Published &amp; Accepted
+          {publications.length} Peer-Reviewed Papers
         </h1>
+        <p className="section-subtitle">
+          {publishedCount} Published · {acceptedCount} Accepted · 3 IEEE venues
+          (DCOSS-IoT, ICCIT, QPAIN)
+        </p>
 
         <div className="pub-list">
-          {pubs.map((pub, i) => (
+          {publications.map((pub, i) => (
             <div className="pub-item" key={i}>
               <p className="pub-title">
                 {pub.link ? (
@@ -40,17 +46,18 @@ export default function Publications() {
                   pub.title
                 )}
               </p>
-              <p className="pub-venue">{pub.venue}</p>
-              <span
-                className={`pub-status ${pub.status.toLowerCase()}`}
-              >
+              <p className="pub-venue">
+                {pub.venue} · {pub.conference}
+                {pub.date ? ` · ${pub.date}` : ""}
+              </p>
+              <span className={`pub-status ${pub.status.toLowerCase()}`}>
                 {pub.status}
               </span>
               {pub.doi && (
                 <p className="pub-doi">
                   DOI:{" "}
                   <a
-                    href={pub.link}
+                    href={`https://doi.org/${pub.doi}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

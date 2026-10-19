@@ -348,6 +348,28 @@ a:hover {
   max-width: 540px;
 }
 
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+  flex-wrap: wrap;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+.hero-meta strong {
+  color: var(--navy);
+  font-weight: 600;
+  margin-right: 4px;
+}
+.hero-meta-dot {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--slate-light);
+}
+
 .hero-links {
   display: flex;
   gap: var(--space-md);
@@ -372,6 +394,16 @@ a:hover {
   border-color: var(--teal);
   color: var(--teal);
   background: var(--teal-faint);
+}
+.hero-link-primary {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #fff;
+}
+.hero-link-primary:hover {
+  background: var(--teal-dark);
+  border-color: var(--teal-dark);
+  color: #fff;
 }
 
 .hero-photo {
@@ -446,6 +478,13 @@ a:hover {
   font-size: var(--text-2xl);
   font-weight: 600;
   color: var(--navy);
+  margin-bottom: var(--space-xl);
+}
+
+.section-subtitle {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  margin-top: calc(-1 * var(--space-md));
   margin-bottom: var(--space-xl);
 }
 
@@ -562,6 +601,16 @@ a:hover {
   background: var(--teal);
   color: white;
   border-color: var(--teal);
+}
+
+.filter-count {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  opacity: 0.7;
+  margin-left: 4px;
+}
+.filter-btn.active .filter-count {
+  opacity: 0.9;
 }
 
 /* ===== PROJECT DETAIL ===== */
@@ -719,6 +768,13 @@ a:hover {
   font-size: var(--text-xs);
   color: var(--slate);
   margin-top: var(--space-sm);
+}
+
+/* ===== INTERESTS CHIPS ===== */
+.interests-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
 }
 
 /* ===== TIMELINE (Experience & Education) ===== */

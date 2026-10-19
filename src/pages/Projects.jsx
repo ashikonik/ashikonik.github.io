@@ -1,20 +1,18 @@
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { apiGet } from "../api";
+import { projects } from "../data";
 import Loading from "../components/Loading";
 
 export default function Projects() {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setHydrated(true), 0);
+    return () => clearTimeout(t);
+  }, []);
   const [searchParams, setSearchParams] = useSearchParams();
   const activeFilter = searchParams.get("category") || "all";
 
-  useEffect(() => {
-    apiGet("/projects")
-      .then(setProjects)
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, []);
+  if (!hydrated) return <Loading />;
 
   const filtered =
     activeFilter === "all"
@@ -29,13 +27,21 @@ export default function Projects() {
     }
   };
 
-  if (loading) return <Loading />;
+  const counts = {
+    all: projects.length,
+    research: projects.filter((p) => p.category === "research").length,
+    software: projects.filter((p) => p.category === "software").length,
+  };
 
   return (
     <div className="page">
       <div className="container">
         <p className="section-label">Projects</p>
         <h1 className="section-title">All Projects</h1>
+        <p className="section-subtitle">
+          {projects.length} total · {counts.research} research,{" "}
+          {counts.software} software
+        </p>
 
         <div className="filter-bar">
           {["all", "research", "software"].map((cat) => (
@@ -44,7 +50,8 @@ export default function Projects() {
               className={`filter-btn${activeFilter === cat ? " active" : ""}`}
               onClick={() => setFilter(cat)}
             >
-              {cat.charAt(0).toUpperCase() + cat.slice(1)}
+              {cat.charAt(0).toUpperCase() + cat.slice(1)}{" "}
+              <span className="filter-count">({counts[cat]})</span>
             </button>
           ))}
         </div>
@@ -67,7 +74,9 @@ export default function Projects() {
                   </span>
                 ))}
                 {project.tech.length > 5 && (
-                  <span className="tech-tag">+{project.tech.length - 5}</span>
+                  <span className="tech-tag">
+                    +{project.tech.length - 5}
+                  </span>
                 )}
               </div>
               <p className="project-card-year">{project.year}</p>
@@ -76,7 +85,12 @@ export default function Projects() {
         </div>
 
         {filtered.length === 0 && (
-          <p style={{ color: "var(--text-muted)", padding: "var(--space-2xl) 0" }}>
+          <p
+            style={{
+              color: "var(--text-muted)",
+              padding: "var(--space-2xl) 0",
+            }}
+          >
             No projects in this category.
           </p>
         )}

@@ -1,24 +1,22 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { apiGet } from "../api";
+import { projects } from "../data";
 import Loading from "../components/Loading";
 
 export default function ProjectDetail() {
   const { slug } = useParams();
-  const [project, setProject] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    apiGet(`/projects/${slug}`)
-      .then(setProject)
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
-  }, [slug]);
+    const t = setTimeout(() => setHydrated(true), 0);
+    return () => clearTimeout(t);
+  }, []);
 
-  if (loading) return <Loading />;
-  if (error || !project) {
+  if (!hydrated) return <Loading />;
+
+  const project = projects.find((p) => p.slug === slug);
+
+  if (!project) {
     return (
       <div className="page container">
         <div className="not-found">
@@ -45,7 +43,13 @@ export default function ProjectDetail() {
             <span className="project-card-year">{project.year}</span>
           </div>
 
-          <p style={{ fontSize: "var(--text-lg)", color: "var(--text-secondary)", lineHeight: 1.7 }}>
+          <p
+            style={{
+              fontSize: "var(--text-lg)",
+              color: "var(--text-secondary)",
+              lineHeight: 1.7,
+            }}
+          >
             {project.summary}
           </p>
 
@@ -66,7 +70,10 @@ export default function ProjectDetail() {
           </ul>
 
           <div style={{ marginTop: "var(--space-2xl)" }}>
-            <p className="section-label" style={{ marginBottom: "var(--space-md)" }}>
+            <p
+              className="section-label"
+              style={{ marginBottom: "var(--space-md)" }}
+            >
               Tech Stack
             </p>
             <div className="project-card-tech">

@@ -1,8 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { profile } from "../data";
+import Loading from "../components/Loading";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
   const [status, setStatus] = useState("idle");
+
+  useEffect(() => {
+    const t = setTimeout(() => setStatus("ready"), 0);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (status === "idle") return <Loading />;
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -40,38 +53,38 @@ export default function Contact() {
   const contacts = [
     {
       label: "Email",
-      value: "ashikonik052@gmail.com",
-      href: "mailto:ashikonik052@gmail.com",
+      value: profile.email,
+      href: `mailto:${profile.email}`,
       icon: "✉",
     },
     {
       label: "Phone",
-      value: "+880 1533103481",
-      href: "tel:+8801533103481",
+      value: profile.phone,
+      href: `tel:${profile.phone.replace(/\s/g, "")}`,
       icon: "☎",
     },
     {
       label: "GitHub",
       value: "github.com/ashikonik",
-      href: "https://github.com/ashikonik",
+      href: profile.links.github,
       icon: "⌨",
     },
     {
       label: "LinkedIn",
       value: "linkedin.com/in/ashikonik",
-      href: "https://linkedin.com/in/ashikonik",
+      href: profile.links.linkedin,
       icon: "🔗",
     },
     {
       label: "Google Scholar",
       value: "Scholar Profile",
-      href: "https://scholar.google.com/citations?user=6up31n8AAAAJ&hl=en",
+      href: profile.links.googleScholar,
       icon: "📚",
     },
     {
       label: "ORCID",
       value: "0009-0008-1047-4361",
-      href: "https://orcid.org/0009-0008-1047-4361",
+      href: profile.links.orcid,
       icon: "🆔",
     },
   ];
@@ -101,7 +114,7 @@ export default function Contact() {
               </p>
               <button
                 type="button"
-                onClick={() => setStatus("idle")}
+                onClick={() => setStatus("ready")}
                 className="form-reset-btn"
               >
                 Send another message
@@ -160,7 +173,10 @@ export default function Contact() {
         </section>
 
         <div style={{ marginTop: "var(--space-3xl)" }}>
-          <p className="section-label" style={{ marginBottom: "var(--space-md)" }}>
+          <p
+            className="section-label"
+            style={{ marginBottom: "var(--space-md)" }}
+          >
             Or reach me directly
           </p>
           <div className="contact-grid">
@@ -197,7 +213,7 @@ export default function Contact() {
               marginTop: "var(--space-sm)",
             }}
           >
-            Dhaka, Bangladesh
+            {profile.location}
           </p>
         </div>
       </div>

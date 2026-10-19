@@ -1,54 +1,59 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { apiGet } from "../api";
+import {
+  profile,
+  projects,
+  publications,
+  education,
+  experience,
+  skills,
+  activities,
+  interests,
+} from "../data";
 import Loading from "../components/Loading";
 
 export default function Home() {
-  const [profile, setProfile] = useState(null);
-  const [projects, setProjects] = useState([]);
-  const [publications, setPubs] = useState([]);
-  const [experience, setExperience] = useState([]);
-  const [education, setEducation] = useState([]);
-  const [skills, setSkills] = useState({});
-  const [activities, setActivities] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [photoError, setPhotoError] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    Promise.all([
-      apiGet("/profile"),
-      apiGet("/projects"),
-      apiGet("/publications"),
-      apiGet("/experience"),
-      apiGet("/education"),
-      apiGet("/skills"),
-      apiGet("/activities"),
-    ])
-      .then(([p, proj, pubs, exp, edu, sk, act]) => {
-        setProfile(p);
-        setProjects(proj);
-        setPubs(pubs);
-        setExperience(exp);
-        setEducation(edu);
-        setSkills(sk);
-        setActivities(act);
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    const t = setTimeout(() => setHydrated(true), 0);
+    return () => clearTimeout(t);
   }, []);
 
-  if (loading) return <Loading />;
-  if (!profile) return <div className="page container">Failed to load data.</div>;
+  if (!hydrated) return <Loading />;
+
+  const featured = projects.slice(0, 4);
+  const researchProjects = projects.filter((p) => p.category === "research");
+  const publishedCount = publications.filter(
+    (p) => p.status === "Published"
+  ).length;
+  const acceptedCount = publications.filter(
+    (p) => p.status === "Accepted"
+  ).length;
 
   return (
     <div className="page">
       <div className="container">
+        {/* Hero */}
         <section className="hero">
           <div className="hero-layout">
             <div className="hero-text">
               <p className="hero-greeting">Hello, I'm</p>
               <h1 className="hero-name">{profile.name}</h1>
               <p className="hero-tagline">{profile.bio}</p>
+              <div className="hero-meta">
+                <span>
+                  <strong>CGPA</strong> {profile.cgpa}
+                </span>
+                <span className="hero-meta-dot" />
+                <span>{profile.expectedGraduation} · Expected</span>
+                <span className="hero-meta-dot" />
+                <span>
+                  {publications.length} IEEE papers ({publishedCount}{" "}
+                  published, {acceptedCount} accepted)
+                </span>
+              </div>
               <div className="hero-links">
                 <a
                   href={profile.links.github}
@@ -82,6 +87,9 @@ export default function Home() {
                 >
                   ORCID
                 </a>
+                <a href="/resume" className="hero-link hero-link-primary">
+                  View Résumé →
+                </a>
               </div>
             </div>
             {!photoError ? (
@@ -93,12 +101,13 @@ export default function Home() {
               />
             ) : (
               <div className="hero-monogram">
-                <span>AZ</span>
+                <span>{profile.initials}</span>
               </div>
             )}
           </div>
         </section>
 
+        {/* Experience */}
         <section className="section">
           <p className="section-label">Experience</p>
           <div className="section-divider" />
@@ -106,7 +115,10 @@ export default function Home() {
             {experience.map((item, i) => (
               <div className="timeline-item" key={i}>
                 <p className="timeline-role">{item.role}</p>
-                <p className="timeline-org">{item.org}</p>
+                <p className="timeline-org">
+                  {item.org}
+                  {item.location ? ` · ${item.location}` : ""}
+                </p>
                 <p className="timeline-period">{item.period}</p>
                 <ul className="timeline-bullets">
                   {item.bullets.map((b, j) => (
@@ -118,6 +130,7 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Education */}
         <section className="section">
           <p className="section-label">Education</p>
           <div className="section-divider" />
@@ -133,6 +146,7 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Skills */}
         <section className="section">
           <p className="section-label">Skills</p>
           <div className="section-divider" />
@@ -152,8 +166,9 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Activities */}
         <section className="section">
-          <p className="section-label">Activities</p>
+          <p className="section-label">Activities &amp; Interests</p>
           <div className="section-divider" />
           <div className="timeline">
             {activities.map((item, i) => (
@@ -170,13 +185,21 @@ export default function Home() {
               </div>
             ))}
           </div>
+          <div className="interests-chips" style={{ marginTop: "var(--space-xl)" }}>
+            {interests.map((i) => (
+              <span className="tech-tag" key={i}>
+                {i}
+              </span>
+            ))}
+          </div>
         </section>
 
+        {/* Featured Projects */}
         <section className="section">
           <p className="section-label">Projects</p>
           <h2 className="section-title">Featured Work</h2>
           <div className="project-grid">
-            {projects.map((project) => (
+            {featured.map((project) => (
               <Link
                 to={`/projects/${project.slug}`}
                 key={project.slug}
@@ -193,27 +216,41 @@ export default function Home() {
                     </span>
                   ))}
                   {project.tech.length > 4 && (
-                    <span className="tech-tag">+{project.tech.length - 4}</span>
+                    <span className="tech-tag">
+                      +{project.tech.length - 4}
+                    </span>
                   )}
                 </div>
               </Link>
             ))}
           </div>
+          <p style={{ marginTop: "var(--space-xl)" }}>
+            <Link to="/projects">
+              View all {projects.length} projects ({researchProjects.length}{" "}
+              research, {projects.length - researchProjects.length} software) →
+            </Link>
+          </p>
         </section>
 
+        {/* Publications preview */}
         <section className="section">
           <p className="section-label">Publications</p>
           <h2 className="section-title">
-            {publications.length} Papers Published &amp; Accepted
+            {publications.length} Peer-Reviewed Papers
           </h2>
+          <p className="section-subtitle">
+            {publishedCount} Published · {acceptedCount} Accepted · All IEEE
+            venues
+          </p>
           <div className="pub-list">
             {publications.slice(0, 3).map((pub, i) => (
               <div className="pub-item" key={i}>
                 <p className="pub-title">{pub.title}</p>
-                <p className="pub-venue">{pub.venue}</p>
-                <span
-                  className={`pub-status ${pub.status.toLowerCase()}`}
-                >
+                <p className="pub-venue">
+                  {pub.conference}
+                  {pub.date ? ` · ${pub.date}` : ""}
+                </p>
+                <span className={`pub-status ${pub.status.toLowerCase()}`}>
                   {pub.status}
                 </span>
               </div>
