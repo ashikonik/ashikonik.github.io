@@ -57,3 +57,13 @@ Tracking every diff on the portfolio so we can revert any. Format:
   - src/pages/Home.jsx: Education section now uses .edu-grid + .edu-card
   - Fallback: git revert HEAD (revert this whole commit) or pick an
     earlier commit before db6ba7d for the full personality build
+
+### Change 004 — Roll back footer to pre-personality
+- src/components/Footer.jsx: revert to plain "© {year} Md. Ashik-Uz-Zaman"
+  with GitHub/LinkedIn/Scholar/ORCID links. The personality version
+  ("Built in Dhaka, served from a static site" + handwritten "— cheers,
+  Ashik") is gone.
+- src/index.css: .footer-* rules reverted to the pre-personality block
+  (solid border-top, simple padding, no .footer-mark, no dashed border,
+  no paper-card background, no mono uppercase links).
+- Fallback: git revert HEAD or git restore from commit 7b31eca
