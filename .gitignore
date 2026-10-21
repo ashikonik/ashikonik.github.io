@@ -3,3 +3,11 @@ dist
 .DS_Store
 .env
 *.local
+
+# Local puku-cli verification artifacts (screenshots, ~6.5MB)
+.puku-cli/baselines/
+.puku-cli/shots/
+
+# Skills are vendored reference content, re-installed into user-scope when
+# needed; project repo stays site source only.
+.puku-cli/skills/

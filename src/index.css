@@ -4,25 +4,42 @@
   --navy: #1b2a4a;
   --navy-light: #243556;
   --navy-muted: #3a4d6e;
-  --slate: #64748b;
-  --slate-light: #94a3b8;
+  --slate: #5c6675;
+  --slate-light: #6b7787;
   --teal: #2a9d8f;
   --teal-dark: #21867a;
   --teal-faint: rgba(42, 157, 143, 0.08);
   --teal-glow: rgba(42, 157, 143, 0.15);
   /* New personality accents */
   --copper: #b85a3e;
+  /* Darker copper for text on cream — --copper alone is only 4.15:1 and fails AA. */
+  --copper-text: #a14a30;
   --copper-faint: rgba(184, 90, 62, 0.1);
   --paper: #f8f7f4;
-  --paper-tint: #efece6;
+  --paper-glass: rgba(248, 247, 244, 0.92);
   --bg: #f6f3ec;
   --bg-card: #ffffff;
   --bg-code: #f1f0ed;
   --text: #1b2a4a;
   --text-secondary: #4a5568;
-  --text-muted: #718096;
+  --text-muted: #5a6478;
   --border: #e2e0dc;
   --border-light: #eeedea;
+
+  /* Semantic status colours live in the token block, not inline. */
+  --live: #1a7f4b;
+  --live-glow: rgba(26, 127, 75, 0.45);
+
+  /* Foreground for filled CTA buttons (nav Resume, hero Resume, filters,
+     resume download, contact submit). Solid fills carry light text. */
+  --cta-fg: #ffffff;
+
+  /* Semantic accents — research reads copper, software reads teal.
+     Everything category-tinted pulls from here so the mapping lives in one place. */
+  --accent-research: var(--copper);
+  --accent-research-text: var(--copper-text);
+  --accent-software: var(--teal);
+  --accent-software-text: var(--teal-dark);
 
   /* Typography */
   --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
@@ -55,10 +72,30 @@
   --nav-height: 64px;
   --radius: 6px;
   --radius-lg: 14px;
+  --radius-pill: 99px;
+
+  /* Elevation */
+  --shadow-sm: 0 2px 8px rgba(27, 42, 74, 0.06);
+  --shadow-md: 0 12px 32px -12px rgba(27, 42, 74, 0.18);
+  --shadow-lg: 0 24px 48px -16px rgba(27, 42, 74, 0.18);
+
+  /* Stacking — semantic, never a magic 999 */
+  --z-nav: 100;
+  --z-menu: 200;
+  --z-modal: 300;
+  --z-toast: 400;
 
   /* Motion */
+  /* --ease is the CSS default curve, kept only for existing legacy rules. */
   --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  /* Everything new uses --ease-out: enters and exits feel immediate. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  /* For movement that happens on screen (morphs, in-place transitions). */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --duration: 0.3s;
+  --duration-base: 0.24s;
+  --duration-snappy: 0.16s;
+  --duration-slow: 0.6s;
 }
 
 /* ===== HANDWRITTEN / SIGNATURE ===== */
@@ -66,7 +103,7 @@
    so the page does not depend on a third-party handwritten webfont. */
 .sig {
   display: inline-block;
-  font-family: "Newsreader", "Iowan Old Style", Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-weight: 600;
   color: var(--navy);
@@ -83,11 +120,6 @@
   background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'><path d='M2,5 C20,1 40,7 60,3 C82,0 100,6 120,4 C140,2 160,7 198,3' stroke='%232A9D8F' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>")
     no-repeat center / 100% 100%;
   pointer-events: none;
-}
-
-.handwritten {
-  font-family: "Caveat", "Brush Script MT", cursive;
-  font-weight: 600;
 }
 
 /* ===== RESET ===== */
@@ -160,11 +192,11 @@ a:hover {
   left: 0;
   right: 0;
   height: var(--nav-height);
-  background: rgba(248, 247, 244, 0.92);
+  background: var(--paper-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-light);
-  z-index: 1000;
+  z-index: var(--z-nav);
   display: flex;
   align-items: center;
 }
@@ -267,7 +299,7 @@ a:hover {
 }
 .nav-resume-btn:hover {
   background: var(--teal);
-  color: white;
+  color: var(--cta-fg);
 }
 
 /* Mobile hamburger */
@@ -309,7 +341,7 @@ a:hover {
   bottom: 0;
   background: var(--bg);
   padding: var(--space-2xl) var(--space-lg);
-  z-index: 999;
+  z-index: var(--z-menu);
 }
 .nav-mobile.open {
   display: flex;
@@ -361,7 +393,7 @@ a:hover {
 }
 
 .hero-greeting {
-  font-family: "Newsreader", "Iowan Old Style", Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: var(--text-xl);
   color: var(--copper);
@@ -391,7 +423,7 @@ a:hover {
 }
 
 .hero-signoff {
-  font-family: "Newsreader", "Iowan Old Style", Georgia, serif;
+  font-family: var(--font-display);
   font-style: italic;
   color: var(--text-secondary);
   margin-bottom: var(--space-md);
@@ -425,19 +457,19 @@ a:hover {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #16a34a;
-  box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.45);
+  background: var(--live);
+  box-shadow: 0 0 0 0 var(--live-glow);
   animation: pulse-ring 2s infinite;
 }
 @keyframes pulse-ring {
   0% {
-    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.45);
+    box-shadow: 0 0 0 0 var(--live-glow);
   }
   70% {
-    box-shadow: 0 0 0 8px rgba(22, 163, 74, 0);
+    box-shadow: 0 0 0 8px rgba(26, 127, 75, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0);
+    box-shadow: 0 0 0 0 rgba(26, 127, 75, 0);
   }
 }
 .hero-now strong {
@@ -495,12 +527,12 @@ a:hover {
 .hero-link-primary {
   background: var(--teal);
   border-color: var(--teal);
-  color: #fff;
+  color: var(--cta-fg);
 }
 .hero-link-primary:hover {
   background: var(--teal-dark);
   border-color: var(--teal-dark);
-  color: #fff;
+  color: var(--cta-fg);
 }
 
 .hero-photo {
@@ -546,7 +578,7 @@ a:hover {
   left: 0;
   right: 0;
   text-align: center;
-  font-family: "Newsreader", serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 0.85rem;
   color: var(--text-muted);
@@ -593,7 +625,7 @@ a:hover {
   left: 0;
   right: 0;
   text-align: center;
-  font-family: "Newsreader", serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.5);
@@ -707,25 +739,31 @@ a:hover {
   background: var(--teal);
   transition: height var(--duration) var(--ease);
 }
-.project-card.research::before {
-  background: linear-gradient(to right, var(--teal), var(--teal-dark));
+/* Research reads copper, software reads teal. The category class is the only
+   thing that decides the accent; the shared rules below never hardcode one. */
+.project-card.research {
+  --card-accent: var(--accent-research);
+  --card-accent-text: var(--accent-research-text);
+  --card-accent-faint: var(--copper-faint);
 }
-.project-card.software::before {
-  background: linear-gradient(to right, var(--copper), #d97706);
+.project-card.software {
+  --card-accent: var(--accent-software);
+  --card-accent-text: var(--accent-software-text);
+  --card-accent-faint: var(--teal-faint);
+}
+.project-card::before {
+  background: var(--card-accent);
 }
 .project-card:hover {
-  border-color: var(--teal);
-  box-shadow: 0 12px 32px -12px rgba(27, 42, 74, 0.18);
-  transform: translateY(-4px);
+  border-color: var(--card-accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 .project-card:hover::before {
   height: 6px;
 }
-.project-card.research:hover {
-  border-color: var(--teal);
-}
-.project-card.software:hover {
-  border-color: var(--copper);
+.project-card:active {
+  transform: translateY(-2px) scale(0.99);
 }
 
 .project-card-meta {
@@ -740,15 +778,11 @@ a:hover {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--teal);
-  background: var(--teal-faint);
+  color: var(--card-accent-text, var(--accent-research-text));
+  background: var(--card-accent-faint, var(--copper-faint));
   padding: 3px 10px;
-  border-radius: 99px;
+  border-radius: var(--radius-pill);
   align-self: flex-start;
-}
-.project-card.software .project-card-badge {
-  color: var(--copper);
-  background: var(--copper-faint);
 }
 
 .project-card-title {
@@ -780,7 +814,7 @@ a:hover {
   color: var(--slate);
   background: var(--bg-code);
   padding: 3px 10px;
-  border-radius: 99px;
+  border-radius: var(--radius-pill);
   white-space: nowrap;
 }
 
@@ -797,14 +831,12 @@ a:hover {
   right: 18px;
   font-size: 1.1rem;
   color: var(--slate-light);
-  transition: color var(--duration), transform var(--duration);
+  transition: color var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
 }
 .project-card:hover .project-card-arrow {
-  color: var(--teal);
+  color: var(--card-accent);
   transform: translateX(4px);
-}
-.project-card.software:hover .project-card-arrow {
-  color: var(--copper);
 }
 
 /* ===== PROJECT FILTER ===== */
@@ -823,9 +855,16 @@ a:hover {
   background: none;
   border: 1px solid var(--border);
   padding: 8px 20px;
-  border-radius: 99px;
+  border-radius: var(--radius-pill);
   cursor: pointer;
-  transition: all var(--duration) var(--ease);
+  transition:
+    background var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    transform var(--duration-snappy) var(--ease-out);
+}
+.filter-btn:active {
+  transform: scale(0.97);
 }
 .filter-btn:hover {
   border-color: var(--teal);
@@ -833,7 +872,7 @@ a:hover {
 }
 .filter-btn.active {
   background: var(--teal);
-  color: white;
+  color: var(--cta-fg);
   border-color: var(--teal);
 }
 
@@ -937,7 +976,10 @@ a:hover {
   border-radius: var(--radius);
   border: 1px solid var(--border);
   color: var(--text-secondary);
-  transition: all var(--duration);
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out);
 }
 .project-detail-link:hover {
   border-color: var(--teal);
@@ -1301,7 +1343,10 @@ a:hover {
   display: flex;
   align-items: flex-start;
   gap: var(--space-md);
-  transition: border-color var(--duration);
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    transform var(--duration-snappy) var(--ease-out),
+    box-shadow var(--duration-snappy) var(--ease-out);
 }
 .contact-card:hover {
   border-color: var(--teal);
@@ -1349,7 +1394,7 @@ a:hover {
   gap: 8px;
   font-weight: 500;
   font-size: var(--text-sm);
-  color: white;
+  color: var(--cta-fg);
   background: var(--teal);
   padding: 12px 24px;
   border-radius: var(--radius);
@@ -1357,7 +1402,7 @@ a:hover {
 }
 .resume-download:hover {
   background: var(--teal-dark);
-  color: white;
+  color: var(--cta-fg);
 }
 
 /* ===== LOADING ===== */
@@ -1396,16 +1441,39 @@ a:hover {
 /* ===== SCROLL ANIMATIONS ===== */
 .fade-in {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  transform: translateY(14px);
+  transition:
+    opacity 0.42s var(--ease-out),
+    transform 0.42s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
+/* Above-the-fold hero stagger. Each hero element is opacity 0 at rest and
+   fades in once on mount. The transition is on the same shared curve as
+   scroll reveals so the two systems feel like one. */
+.hero .rise {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.42s var(--ease-out) var(--rise-delay, 0ms),
+    transform 0.42s var(--ease-out) var(--rise-delay, 0ms);
+}
+.hero .hero-greeting { --rise-delay: 0ms; }
+.hero .hero-name { --rise-delay: 60ms; }
+.hero .hero-signoff { --rise-delay: 120ms; }
+.hero .hero-tagline { --rise-delay: 180ms; }
+.hero.is-loaded .rise {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .fade-in {
+  .fade-in,
+  .hero .rise {
     opacity: 1;
     transform: none;
     transition: none;
@@ -1473,7 +1541,7 @@ a:hover {
   width: 100%;
   padding: 0.75rem 1.5rem;
   background: var(--teal);
-  color: white;
+  color: var(--cta-fg);
   border: none;
   border-radius: var(--radius);
   font-family: var(--font-body);
@@ -1504,19 +1572,13 @@ a:hover {
 }
 
 .form-success {
-  text-align: center;
-  padding: var(--space-2xl);
-  background: #ecfdf5;
-  border: 1px solid #a7f3d0;
-  border-radius: var(--radius-lg);
-  color: #065f46;
+  /* Replaced below by .form-success appended later in the file (uses tokens).
+     Intentionally left empty. */
 }
 
 .form-error {
-  color: #dc2626;
-  text-align: center;
-  font-size: var(--text-sm);
-  margin-top: var(--space-xs);
+  /* Replaced below by .form-error appended later in the file (uses tokens).
+     Intentionally left empty. */
 }
 
 /* ===== 404 PERSONALITY ===== */
@@ -1556,9 +1618,290 @@ a:hover {
   line-height: 1.65;
 }
 .not-found-note {
-  font-family: "Newsreader", serif;
+  font-family: var(--font-display);
   font-style: italic;
   color: var(--copper);
   font-size: var(--text-base);
   margin-top: var(--space-md);
+}
+
+/* =========================================================================
+   Layout shell, skip link, utility classes added during the redesign
+   ========================================================================= */
+
+/* Skip link. Visually hidden until focused; jumps to <main id="main">. */
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  transform: translateY(-150%);
+  padding: 8px 14px;
+  background: var(--navy);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  border-radius: var(--radius);
+  z-index: var(--z-toast);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+/* <main id="main" tabIndex={-1}> needs to be a flex column that hosts
+   .container. The original .page class was repointed to main, so the
+   layout containers don't change. */
+main.page {
+  display: block;
+}
+main.page:focus {
+  outline: none;
+}
+
+/* Lede paragraphs across the site share this typography. */
+.lede {
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-lg);
+  line-height: 1.7;
+  max-width: 560px;
+  margin-bottom: var(--space-2xl);
+}
+.lede.lede-wide {
+  max-width: 720px;
+  margin-bottom: var(--space-xl);
+}
+
+/* Empty-state and section-more lines we extracted inline style={{}}s for. */
+.empty-state {
+  color: var(--text-secondary);
+  padding: var(--space-2xl) 0;
+  text-align: center;
+  font-style: italic;
+}
+.section-more {
+  margin-top: var(--space-xl);
+}
+
+/* Resume frame: holds the iframe + the download CTA together. */
+.resume-frame {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* Publications list with no extra padding above. */
+.pub-list-wrap {
+  /* the existing .pub-list styling keeps working; this is just a stable
+     hook so the page-level Reveal works. */
+}
+
+/* =========================================================================
+   Contact form a11y pass — real labels, error role, neutral errors
+   ========================================================================= */
+
+.form-group label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+.form-group input:hover,
+.form-group textarea:hover {
+  border-color: var(--border);
+}
+.form-group input:focus-visible,
+.form-group textarea:focus-visible {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px var(--teal-faint);
+}
+
+.contact-form button[type="submit"] {
+  font: inherit;
+  font-weight: 600;
+  background: var(--teal);
+  color: var(--bg-card);
+  border: none;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition:
+    background var(--duration-base) var(--ease-out),
+    transform var(--duration-snappy) var(--ease-out);
+}
+.contact-form button[type="submit"]:hover {
+  background: var(--teal-dark);
+}
+.contact-form button[type="submit"]:active {
+  transform: scale(0.97);
+}
+.contact-form button[type="submit"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.form-error {
+  margin-top: var(--space-md);
+  padding: 12px 14px;
+  background: color-mix(in srgb, var(--copper-faint) 60%, white 40%);
+  border: 1px solid var(--copper-faint);
+  color: var(--copper-text);
+  border-radius: var(--radius);
+  font-size: var(--text-sm);
+}
+
+.form-success {
+  padding: var(--space-2xl) var(--space-lg);
+  background: var(--teal-faint);
+  border: 1px solid color-mix(in srgb, var(--teal-faint) 100%, var(--teal-dark) 0%);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+.form-success-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--teal-dark);
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+}
+.form-reset-btn {
+  font: inherit;
+  border: 1px solid var(--teal);
+  color: var(--teal);
+  background: transparent;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition:
+    background var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out);
+}
+.form-reset-btn:hover {
+  background: var(--teal);
+  color: var(--bg-card);
+}
+
+/* =========================================================================
+   Contact direct card — flex layout cleanup
+   ========================================================================= */
+
+.contact-card {
+  text-decoration: none;
+  color: inherit;
+}
+.contact-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+.contact-card:active {
+  transform: translateY(-2px) scale(0.99);
+}
+.contact-body {
+  display: flex;
+  flex-direction: column;
+}
+.contact-direct {
+  margin-top: var(--space-3xl);
+}
+.contact-location {
+  margin-top: var(--space-3xl);
+  color: var(--text-secondary);
+}
+
+/* =========================================================================
+   Project detail page — keeps the category color story
+   ========================================================================= */
+
+.project-detail h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 600;
+  color: var(--navy);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: var(--space-md);
+  text-wrap: balance;
+}
+.project-detail h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--navy);
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-sm);
+}
+.project-detail p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: var(--space-md);
+}
+.project-detail-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+.project-detail-highlights {
+  list-style: none;
+  padding-left: 0;
+}
+.project-detail-tech-block {
+  margin-top: var(--space-2xl);
+}
+.project-detail-back {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xl);
+  transition: color var(--duration-base) var(--ease-out);
+}
+.project-detail-back:hover {
+  color: var(--teal);
+}
+.project-detail-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-weight: 500;
+  margin-top: var(--space-2xl);
+  padding: 10px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out);
+}
+.project-detail-link:hover {
+  border-color: var(--teal);
+  background: var(--teal-faint);
 }

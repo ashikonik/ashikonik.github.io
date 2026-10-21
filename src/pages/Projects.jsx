@@ -1,18 +1,16 @@
-import { useState, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { projects } from "../data";
-import Loading from "../components/Loading";
+import ProjectCard from "../components/ProjectCard";
+import Reveal from "../components/Reveal";
+import useDocumentTitle from "../components/useDocumentTitle";
+
+const CATEGORIES = ["all", "research", "software"];
 
 export default function Projects() {
-  const [hydrated, setHydrated] = useState(false);
-  useEffect(() => {
-    const t = setTimeout(() => setHydrated(true), 0);
-    return () => clearTimeout(t);
-  }, []);
+  useDocumentTitle("Projects");
+
   const [searchParams, setSearchParams] = useSearchParams();
   const activeFilter = searchParams.get("category") || "all";
-
-  if (!hydrated) return <Loading />;
 
   const filtered =
     activeFilter === "all"
@@ -34,8 +32,8 @@ export default function Projects() {
   };
 
   return (
-    <div className="page">
-      <div className="container">
+    <>
+      <Reveal>
         <p className="section-label">Projects</p>
         <h1 className="section-title">All Projects</h1>
         <p className="section-subtitle">
@@ -43,11 +41,13 @@ export default function Projects() {
           {counts.software} software
         </p>
 
-        <div className="filter-bar">
-          {["all", "research", "software"].map((cat) => (
+        <div className="filter-bar" role="group" aria-label="Filter projects">
+          {CATEGORIES.map((cat) => (
             <button
               key={cat}
+              type="button"
               className={`filter-btn${activeFilter === cat ? " active" : ""}`}
+              aria-pressed={activeFilter === cat}
               onClick={() => setFilter(cat)}
             >
               {cat.charAt(0).toUpperCase() + cat.slice(1)}{" "}
@@ -55,49 +55,18 @@ export default function Projects() {
             </button>
           ))}
         </div>
+      </Reveal>
 
+      <Reveal delay={120}>
         <div className="project-grid">
           {filtered.map((project) => (
-            <Link
-              to={`/projects/${project.slug}`}
-              key={project.slug}
-              className={`project-card ${project.category}`}
-              style={{ textDecoration: "none" }}
-            >
-              <span className="project-card-arrow" aria-hidden="true">↗</span>
-              <div className="project-card-meta">
-                <span className="project-card-badge">{project.category}</span>
-                <span className="project-card-year">{project.year}</span>
-              </div>
-              <h3 className="project-card-title">{project.title}</h3>
-              <p className="project-card-summary">{project.summary}</p>
-              <div className="project-card-tech">
-                {project.tech.slice(0, 5).map((t) => (
-                  <span className="tech-tag" key={t}>
-                    {t}
-                  </span>
-                ))}
-                {project.tech.length > 5 && (
-                  <span className="tech-tag">
-                    +{project.tech.length - 5}
-                  </span>
-                )}
-              </div>
-            </Link>
+            <ProjectCard key={project.slug} project={project} maxTags={5} />
           ))}
         </div>
-
         {filtered.length === 0 && (
-          <p
-            style={{
-              color: "var(--text-muted)",
-              padding: "var(--space-2xl) 0",
-            }}
-          >
-            No projects in this category.
-          </p>
+          <p className="empty-state">No projects in this category.</p>
         )}
-      </div>
-    </div>
+      </Reveal>
+    </>
   );
 }

@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"],
+      "env": {},
+      "description": "Browse the running portfolio site and take screenshots so the assistant judges the rendered result, not the source. After `npm run dev` on port 5173, ask the agent to screenshot /, /projects, /publications, /resume."
+    },
+    "figma": {
+      "command": "npx",
+      "args": ["-y", "figma-mcp@latest"],
+      "env": {
+        "FIGMA_TOKEN": "${env:FIGMA_TOKEN}"
+      },
+      "description": "Pull design context from Figma files (component specs, frames, styles). Requires a Figma personal access token exported in your shell as FIGMA_TOKEN, or set it in the portfolio .env file."
+    }
+  }
+}

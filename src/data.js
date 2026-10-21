@@ -250,6 +250,16 @@ const publications = [
   },
   {
     title:
+      "Design and Implementation of a Generative Pre-Trained Transformer for Universities of Bangladesh",
+    venue: "IEEE",
+    conference:
+      "IEEE 2nd International Conference on Quantum Photonics, Artificial Intelligence & Networking (QPAIN) 2026",
+    doi: "10.1109/QPAIN69676.2026.11545594",
+    link: "https://ieeexplore.ieee.org/document/11545594/",
+    date: "2026",
+  },
+  {
+    title:
       "Integration and Validation of Map Data in the ONE Simulator: IoV in Dhaka City Perspective",
     venue: "IEEE",
     conference:
@@ -267,16 +277,6 @@ const publications = [
     doi: "10.1109/ICCIT68739.2025.11491296",
     link: "https://ieeexplore.ieee.org/abstract/document/11491296",
     date: "2025",
-  },
-  {
-    title:
-      "Design and Implementation of a Generative Pre-Trained Transformer for Universities of Bangladesh",
-    venue: "IEEE",
-    conference:
-      "IEEE 2nd International Conference on Quantum Photonics, Artificial Intelligence & Networking (QPAIN) 2026",
-    doi: "10.1109/QPAIN69676.2026.11545594",
-    link: "https://ieeexplore.ieee.org/document/11545594/",
-    date: "2026",
   },
 ];
 
